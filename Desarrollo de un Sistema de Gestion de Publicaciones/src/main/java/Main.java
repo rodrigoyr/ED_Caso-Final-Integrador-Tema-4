@@ -2,29 +2,36 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            // Crear ventana principal
             VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
             ventanaPrincipal.setVisible(true);
 
-            // Agregar ActionListener para Nuevo Documento
+            // Agregar ActionListener para el menú Nuevo Documento
             ventanaPrincipal.getMenuItemNuevo().addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     abrirVentanaDocumentoNuevo(ventanaPrincipal.getDesktopPane());
                 }
             });
 
-            // Agregar ActionListener para Abrir Documento
+            // Agregar ActionListener para el menú Abrir Documento
             ventanaPrincipal.getMenuItemAbrir().addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    mostrarDocumentosGuardados(ventanaPrincipal);
+                    abrirDocumento(ventanaPrincipal.getDesktopPane());
                 }
             });
 
-            // Agregar ActionListener para Salir
+            // Agregar ActionListener para el menú Guardar Documento
+            ventanaPrincipal.getMenuItemGuardar().addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    guardarDocumento(ventanaPrincipal.getDesktopPane());
+                }
+            });
+
+            // Agregar ActionListener para el menú Salir
             ventanaPrincipal.getMenuItemSalir().addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     System.exit(0);
@@ -39,29 +46,36 @@ public class Main {
         desktopPane.add(ventana);
     }
 
-    private static void mostrarDocumentosGuardados(VentanaPrincipal ventanaPrincipal) {
+    private static void abrirDocumento(JDesktopPane desktopPane) {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-        fileChooser.setDialogTitle("Abrir Documento");
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-        int result = fileChooser.showOpenDialog(ventanaPrincipal);
+        int result = fileChooser.showOpenDialog(null);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             if (selectedFile != null) {
-                abrirDocumento(ventanaPrincipal.getDesktopPane(), selectedFile);
+                VentanaDocumento ventana = new VentanaDocumento(selectedFile.getName());
+                ventana.setFile(selectedFile);
+                try {
+                    ventana.cargarDocumento(); // Llamada sin argumentos
+                    ventana.setVisible(true);
+                    desktopPane.add(ventana);
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Error al abrir el documento", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }
 
-    private static void abrirDocumento(JDesktopPane desktopPane, File file) {
-        VentanaDocumento ventana = new VentanaDocumento(file.getName());
-        try {
-            ventana.cargarDocumento(file);
-            ventana.setVisible(true);
-            desktopPane.add(ventana);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error al abrir el documento", "Error", JOptionPane.ERROR_MESSAGE);
+    private static void guardarDocumento(JDesktopPane desktopPane) {
+        JInternalFrame[] frames = desktopPane.getAllFrames();
+        for (JInternalFrame frame : frames) {
+            if (frame instanceof VentanaDocumento) {
+                VentanaDocumento ventana = (VentanaDocumento) frame;
+                try {
+                    ventana.guardarDocumento();
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Error al guardar el documento", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
 }

@@ -4,49 +4,53 @@ import java.awt.event.*;
 import java.io.*;
 
 public class VentanaDocumento extends JInternalFrame {
-    private JTextArea areaTexto;
-    private String nombreDocumento;
+    private JTextArea textArea;
+    private File file;
 
-    public VentanaDocumento(String nombreDocumento) {
-        super(nombreDocumento, true, true, true, true);
-        this.nombreDocumento = nombreDocumento;
+    public VentanaDocumento(String title) {
+        super(title, true, true, true, true);
         setSize(400, 300);
 
-        areaTexto = new JTextArea();
-        JScrollPane scrollPane = new JScrollPane(areaTexto);
-        getContentPane().add(scrollPane, BorderLayout.CENTER);
+        textArea = new JTextArea();
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        add(scrollPane);
 
-        cargarDocumento();
-    }
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("Archivo");
+        JMenuItem saveMenuItem = new JMenuItem("Guardar");
+        fileMenu.add(saveMenuItem);
+        menuBar.add(fileMenu);
+        setJMenuBar(menuBar);
 
-    private void cargarDocumento() {
-        try (BufferedReader lector = new BufferedReader(new FileReader(nombreDocumento))) {
-            String linea;
-            while ((linea = lector.readLine()) != null) {
-                areaTexto.append(linea + "\n");
-            }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error al cargar el documento", "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
-
-    public void guardarDocumento() {
-        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(nombreDocumento))) {
-            escritor.write(areaTexto.getText());
-            JOptionPane.showMessageDialog(this, "Documento guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error al guardar el documento", "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                VentanaDocumento ventana = new VentanaDocumento("documento.txt");
-                ventana.setVisible(true);
+        saveMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    guardarDocumento();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Error al guardar el documento", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
+    }
+
+    public void cargarDocumento() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        String line;
+        StringBuilder stringBuilder = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line).append("\n");
+        }
+        textArea.setText(stringBuilder.toString());
+        reader.close();
+    }
+
+    public void guardarDocumento() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.write(textArea.getText());
+        writer.close();
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 }
