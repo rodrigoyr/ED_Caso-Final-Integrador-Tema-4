@@ -17,25 +17,47 @@ public class VentanaPrincipal extends JFrame {
         JMenuItem menuItemGuardar = new JMenuItem("Guardar Documento");
         JMenuItem menuItemSalir = new JMenuItem("Salir");
 
+        menuItemNuevo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Aquí va la lógica para crear un nuevo documento
+                JOptionPane.showMessageDialog(VentanaPrincipal.this, "Funcionalidad aún no implementada: Nuevo Documento");
+            }
+        });
+
+        menuItemAbrir.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Aquí va la lógica para abrir un documento existente
+                JOptionPane.showMessageDialog(VentanaPrincipal.this, "Funcionalidad aún no implementada: Abrir Documento");
+            }
+        });
+
+        menuItemGuardar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Aquí va la lógica para guardar el documento actual
+                JOptionPane.showMessageDialog(VentanaPrincipal.this, "Funcionalidad aún no implementada: Guardar Documento");
+            }
+        });
+
+        menuItemSalir.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Aquí va la lógica para salir de la aplicación
+                int respuesta = JOptionPane.showConfirmDialog(VentanaPrincipal.this, "¿Está seguro de que desea salir?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    System.exit(0);
+                }
+            }
+        });
+
         menuArchivo.add(menuItemNuevo);
         menuArchivo.add(menuItemAbrir);
         menuArchivo.add(menuItemGuardar);
         menuArchivo.addSeparator();
         menuArchivo.add(menuItemSalir);
 
-        JMenu menuHerramientas = new JMenu("Herramientas");
-        JMenuItem menuItemComparar = new JMenuItem("Comparar Documentos");
-        JMenuItem menuItemContar = new JMenuItem("Contar Palabras");
-        JMenuItem menuItemBuscar = new JMenuItem("Buscar Palabra");
-        JMenuItem menuItemAgenda = new JMenuItem("Agenda de Contactos");
-
-        menuHerramientas.add(menuItemComparar);
-        menuHerramientas.add(menuItemContar);
-        menuHerramientas.add(menuItemBuscar);
-        menuHerramientas.add(menuItemAgenda);
+        // Aquí se agregan más elementos al menú Herramientas con sus correspondientes ActionListener
 
         menuBar.add(menuArchivo);
-        menuBar.add(menuHerramientas);
+        // Agregar aquí más elementos al menúBar según sea necesario
 
         setJMenuBar(menuBar);
     }
@@ -48,3 +70,4 @@ public class VentanaPrincipal extends JFrame {
         });
     }
 }
+
