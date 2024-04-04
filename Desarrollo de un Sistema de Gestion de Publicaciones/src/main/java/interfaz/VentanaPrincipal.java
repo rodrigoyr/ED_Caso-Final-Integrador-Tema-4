@@ -76,8 +76,28 @@ public class VentanaPrincipal extends JFrame {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new VentanaPrincipal().setVisible(true);
+                VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
+                ventanaPrincipal.setVisible(true);
+
+                JMenuItem menuItemNuevo = ventanaPrincipal.getMenuItemNuevo();
+                JMenuItem menuItemAbrir = ventanaPrincipal.getMenuItemAbrir();
+                JMenuItem menuItemGuardar = ventanaPrincipal.getMenuItemGuardar();
+                JMenuItem menuItemSalir = ventanaPrincipal.getMenuItemSalir();
+
+                menuItemNuevo.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        abrirVentanaDocumentoNuevo(ventanaPrincipal.getDesktopPane());
+                    }
+                });
+
+                // Resto del código para manejar los otros eventos del menú omitido por claridad
             }
         });
+    }
+
+    private static void abrirVentanaDocumentoNuevo(JDesktopPane desktopPane) {
+        VentanaDocumento ventana = new VentanaDocumento("Nuevo Documento");
+        ventana.setVisible(true);
+        desktopPane.add(ventana);
     }
 }

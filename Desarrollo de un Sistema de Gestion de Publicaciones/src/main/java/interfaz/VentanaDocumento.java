@@ -3,20 +3,18 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
-public class VentanaDocumento extends JFrame {
+public class VentanaDocumento extends JInternalFrame {
     private JTextArea areaTexto;
     private String nombreDocumento;
 
     public VentanaDocumento(String nombreDocumento) {
-        super(nombreDocumento);
+        super(nombreDocumento, true, true, true, true);
         this.nombreDocumento = nombreDocumento;
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(600, 400);
-        setLocationRelativeTo(null);
+        setSize(400, 300);
 
         areaTexto = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(areaTexto);
-        add(scrollPane, BorderLayout.CENTER);
+        getContentPane().add(scrollPane, BorderLayout.CENTER);
 
         cargarDocumento();
     }
@@ -33,10 +31,21 @@ public class VentanaDocumento extends JFrame {
         }
     }
 
+    public void guardarDocumento() {
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(nombreDocumento))) {
+            escritor.write(areaTexto.getText());
+            JOptionPane.showMessageDialog(this, "Documento guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Error al guardar el documento", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                new VentanaDocumento("documento.txt").setVisible(true);
+                VentanaDocumento ventana = new VentanaDocumento("documento.txt");
+                ventana.setVisible(true);
             }
         });
     }
