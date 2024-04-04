@@ -1,81 +1,89 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            // Crear ventana principal
-            VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
-            ventanaPrincipal.setVisible(true);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
+                ventanaPrincipal.setVisible(true);
 
-            // Agregar ActionListener para el menú Nuevo Documento
-            ventanaPrincipal.getMenuItemNuevo().addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    abrirVentanaDocumentoNuevo(ventanaPrincipal.getDesktopPane());
-                }
-            });
+                ventanaPrincipal.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {
+                        // Realizar acciones de limpieza o guardado al cerrar la ventana principal
+                    }
+                });
 
-            // Agregar ActionListener para el menú Abrir Documento
-            ventanaPrincipal.getMenuItemAbrir().addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    abrirDocumento(ventanaPrincipal.getDesktopPane());
-                }
-            });
+                // Acciones para el menú de Archivo
+                ventanaPrincipal.getItemNuevo().addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        // Abrir una nueva ventana para editar un nuevo documento
+                        VentanaDocumentoEditor ventanaNuevoDocumento = new VentanaDocumentoEditor();
+                        ventanaNuevoDocumento.setVisible(true);
+                    }
+                });
 
-            // Agregar ActionListener para el menú Guardar Documento
-            ventanaPrincipal.getMenuItemGuardar().addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    guardarDocumento(ventanaPrincipal.getDesktopPane());
-                }
-            });
+                ventanaPrincipal.getItemAbrir().addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        // Abrir un diálogo de selección de archivo para abrir un documento existente
+                        JFileChooser fileChooser = new JFileChooser();
+                        int seleccion = fileChooser.showOpenDialog(null);
+                        if (seleccion == JFileChooser.APPROVE_OPTION) {
+                            String nombreArchivo = fileChooser.getSelectedFile().getName();
+                            // Lógica para abrir el archivo seleccionado
+                            // Por ejemplo:
+                            // VentanaDocumento ventanaDocumento = new VentanaDocumento(nombreArchivo);
+                            // ventanaDocumento.setVisible(true);
+                        }
+                    }
+                });
 
-            // Agregar ActionListener para el menú Salir
-            ventanaPrincipal.getMenuItemSalir().addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    System.exit(0);
-                }
-            });
+                ventanaPrincipal.getItemGuardar().addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        // Lógica para guardar el documento actual
+                    }
+                });
+
+                ventanaPrincipal.getItemSalir().addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        // Lógica para salir de la aplicación
+                        System.exit(0);
+                    }
+                });
+
+                // Acciones para el menú de Herramientas
+                ventanaPrincipal.getItemComparar().addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        // Lógica para comparar documentos
+                        // Por ejemplo:
+                        // VentanaCompararDocumentos ventanaComparar = new VentanaCompararDocumentos();
+                        // ventanaComparar.setVisible(true);
+                    }
+                });
+
+                ventanaPrincipal.getItemContar().addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        // Lógica para contar palabras en un documento
+                    }
+                });
+
+                ventanaPrincipal.getItemBuscar().addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        // Lógica para buscar una palabra en todos los documentos
+                    }
+                });
+
+                ventanaPrincipal.getItemAgenda().addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        // Lógica para acceder a la agenda de contactos
+                        // Por ejemplo:
+                        // VentanaAgendaContactos ventanaAgenda = new VentanaAgendaContactos();
+                        // ventanaAgenda.setVisible(true);
+                    }
+                });
+            }
         });
-    }
-
-    private static void abrirVentanaDocumentoNuevo(JDesktopPane desktopPane) {
-        VentanaDocumento ventana = new VentanaDocumento("Nuevo Documento");
-        ventana.setVisible(true);
-        desktopPane.add(ventana);
-    }
-
-    private static void abrirDocumento(JDesktopPane desktopPane) {
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            if (selectedFile != null) {
-                VentanaDocumento ventana = new VentanaDocumento(selectedFile.getName());
-                ventana.setFile(selectedFile);
-                try {
-                    ventana.cargarDocumento(); // Llamada sin argumentos
-                    ventana.setVisible(true);
-                    desktopPane.add(ventana);
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error al abrir el documento", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
-    }
-
-    private static void guardarDocumento(JDesktopPane desktopPane) {
-        JInternalFrame[] frames = desktopPane.getAllFrames();
-        for (JInternalFrame frame : frames) {
-            if (frame instanceof VentanaDocumento) {
-                VentanaDocumento ventana = (VentanaDocumento) frame;
-                try {
-                    ventana.guardarDocumento();
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error al guardar el documento", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
     }
 }

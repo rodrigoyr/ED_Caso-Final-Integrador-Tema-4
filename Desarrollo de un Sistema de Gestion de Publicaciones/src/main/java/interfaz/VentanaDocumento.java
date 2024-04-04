@@ -1,56 +1,41 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 
-public class VentanaDocumento extends JInternalFrame {
-    private JTextArea textArea;
-    private File file;
+public class VentanaDocumento extends JFrame {
+    private JTextArea areaTexto;
 
-    public VentanaDocumento(String title) {
-        super(title, true, true, true, true);
-        setSize(400, 300);
+    public VentanaDocumento(String nombreDocumento) {
+        super(nombreDocumento);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(400, 400);
+        setLocationRelativeTo(null);
 
-        textArea = new JTextArea();
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        add(scrollPane);
+        areaTexto = new JTextArea();
+        areaTexto.setEditable(false);
 
-        JMenuBar menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("Archivo");
-        JMenuItem saveMenuItem = new JMenuItem("Guardar");
-        fileMenu.add(saveMenuItem);
-        menuBar.add(fileMenu);
-        setJMenuBar(menuBar);
+        JScrollPane scrollPane = new JScrollPane(areaTexto);
+        add(scrollPane, BorderLayout.CENTER);
 
-        saveMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    guardarDocumento();
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Error al guardar el documento", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+        cargarDocumento(nombreDocumento);
+    }
+
+    private void cargarDocumento(String nombreDocumento) {
+        try (BufferedReader lector = new BufferedReader(new FileReader(nombreDocumento))) {
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                areaTexto.append(linea + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new VentanaDocumento("documentos/documento.txt").setVisible(true);
             }
         });
-    }
-
-    public void cargarDocumento() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
-        String line;
-        StringBuilder stringBuilder = new StringBuilder();
-        while ((line = reader.readLine()) != null) {
-            stringBuilder.append(line).append("\n");
-        }
-        textArea.setText(stringBuilder.toString());
-        reader.close();
-    }
-
-    public void guardarDocumento() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(textArea.getText());
-        writer.close();
-    }
-
-    public void setFile(File file) {
-        this.file = file;
     }
 }
