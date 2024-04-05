@@ -1,66 +1,49 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
-import java.util.ArrayList;
 
-public class Main {
+public class VentanaPrincipal extends JFrame {
+    public VentanaPrincipal() {
+        super("Sistema de Gestión de Publicaciones");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(500, 300);
+        setLocationRelativeTo(null);
+
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu menuArchivo = new JMenu("Archivo");
+        JMenuItem menuItemNuevo = new JMenuItem("Nuevo Documento");
+        JMenuItem menuItemAbrir = new JMenuItem("Abrir Documento");
+        JMenuItem menuItemGuardar = new JMenuItem("Guardar Documento");
+        JMenuItem menuItemSalir = new JMenuItem("Salir");
+
+        menuArchivo.add(menuItemNuevo);
+        menuArchivo.add(menuItemAbrir);
+        menuArchivo.add(menuItemGuardar);
+        menuArchivo.addSeparator();
+        menuArchivo.add(menuItemSalir);
+
+        JMenu menuHerramientas = new JMenu("Herramientas");
+        JMenuItem menuItemComparar = new JMenuItem("Comparar Documentos");
+        JMenuItem menuItemContar = new JMenuItem("Contar Palabras");
+        JMenuItem menuItemBuscar = new JMenuItem("Buscar Palabra");
+        JMenuItem menuItemAgenda = new JMenuItem("Agenda de Contactos");
+
+        menuHerramientas.add(menuItemComparar);
+        menuHerramientas.add(menuItemContar);
+        menuHerramientas.add(menuItemBuscar);
+        menuHerramientas.add(menuItemAgenda);
+
+        menuBar.add(menuArchivo);
+        menuBar.add(menuHerramientas);
+
+        setJMenuBar(menuBar);
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
-                ventanaPrincipal.setVisible(true);
-
-                ventanaPrincipal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                ventanaPrincipal.setSize(500, 300);
-                ventanaPrincipal.setLocationRelativeTo(null);
-
-                ventanaPrincipal.agregarListenerNuevoDocumento(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        VentanaDocumento ventanaDocumento = new VentanaDocumento();
-                        ventanaDocumento.setVisible(true);
-                    }
-                });
-
-                ventanaPrincipal.agregarListenerGuardarDocumento(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        // Lógica para guardar el documento
-                        // Por simplicidad, aquí solo mostramos un mensaje
-                        JOptionPane.showMessageDialog(ventanaPrincipal, "Documento guardado correctamente");
-                    }
-                });
-
-                ventanaPrincipal.agregarListenerAbrirDocumento(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        // Lógica para abrir el documento
-                        // Por simplicidad, aquí solo mostramos un mensaje
-                        JOptionPane.showMessageDialog(ventanaPrincipal, "Documento abierto correctamente");
-                    }
-                });
-
-                ventanaPrincipal.agregarListenerCompararDocumentos(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        // Lógica para comparar documentos
-                        // Por simplicidad, aquí solo mostramos un mensaje
-                        JOptionPane.showMessageDialog(ventanaPrincipal, "Documentos comparados correctamente");
-                    }
-                });
-
-                ventanaPrincipal.agregarListenerContarPalabras(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        // Lógica para contar palabras
-                        // Por simplicidad, aquí solo mostramos un mensaje
-                        JOptionPane.showMessageDialog(ventanaPrincipal, "Palabras contadas correctamente");
-                    }
-                });
-
-                ventanaPrincipal.agregarListenerAbrirAgenda(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        // Lógica para abrir la agenda de contactos
-                        // Por simplicidad, aquí solo mostramos un mensaje
-                        JOptionPane.showMessageDialog(ventanaPrincipal, "Agenda de contactos abierta correctamente");
-                    }
-                });
+                new VentanaPrincipal().setVisible(true);
             }
         });
     }
