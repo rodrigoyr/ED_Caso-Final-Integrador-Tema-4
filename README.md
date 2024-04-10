@@ -1,6 +1,7 @@
 # ED_Caso-Final-Integrador-Tema-4
 
-El sistema de gestión de publicaciones es una aplicación desarrollada para escritores y periodistas, diseñada para permitirles crear, editar, almacenar y compartir sus trabajos de manera eficiente y segura. Este documento proporciona una descripción detallada de cada módulo de la aplicación, así como los diagramas de las interfaces de usuario y explicaciones sobre cómo se manejan los datos y eventos en la aplicación. Esta es la estrcutura que he seguido en mi proyecto: src/
+El sistema de gestión de publicaciones es una aplicación desarrollada para escritores y periodistas, diseñada para permitirles crear, editar, almacenar y compartir sus trabajos de manera eficiente y segura. Este documento proporciona una descripción detallada de cada módulo de la aplicación, así como los diagramas de las interfaces de usuario y explicaciones sobre cómo se manejan los datos y eventos en la aplicación. Esta es la estrcutura que he seguido en mi proyecto:
+*src/
 ├── main/
 │   ├── java/
 │   │   ├── editor/
@@ -20,7 +21,7 @@ El sistema de gestión de publicaciones es una aplicación desarrollada para esc
 │   │   └── validacion/
 │   │       └── ValidadorEmail.java
 │   └── Main.java
-└── test/
+└── test/*
     └── MainTest.java
 
 
