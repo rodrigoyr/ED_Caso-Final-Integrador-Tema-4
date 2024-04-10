@@ -1,6 +1,7 @@
 # ED_Caso-Final-Integrador-Tema-4
+https://github.com/rodrigoyr/ED_Caso-Final-Integrador-Tema-4.git
 
-El sistema de gestión de publicaciones es una aplicación desarrollada para escritores y periodistas, diseñada para permitirles crear, editar, almacenar y compartir sus trabajos de manera eficiente y segura. Este documento proporciona una descripción detallada de cada módulo de la aplicación, así como los diagramas de las interfaces de usuario y explicaciones sobre cómo se manejan los datos y eventos en la aplicación. Esta es la estrcutura que he seguido en mi proyecto:
+El sistema de gestión de publicaciones es una aplicación desarrollada para escritores, diseñada para crear, editar, almacenar y compartir sus trabajos. Este documento proporciona una descripción detallada de cada módulo de la aplicación, y explicaciones sobre cómo se manejan los datos y eventos en la aplicación, además de el principal problema con el que me he topado y como lo he tratado de solucionar. Esta es la estrcutura que he seguido en mi proyecto:
 *src/
 ├── main/
 │   ├── java/
