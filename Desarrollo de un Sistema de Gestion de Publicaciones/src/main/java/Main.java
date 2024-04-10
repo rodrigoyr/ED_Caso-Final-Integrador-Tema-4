@@ -14,21 +14,6 @@ public class Main {
                 // Agregar el editor de texto a la ventana principal
                 ventanaPrincipal.agregarPanel(editorTexto, "Editor de Texto");
 
-                // Crear una instancia de la ventana de documentos
-                VentanaDocumento documento = new VentanaDocumento("documentos/documento.txt");
-                // Agregar la ventana de documentos a la ventana principal
-                ventanaPrincipal.agregarPanel(documento, "Documento");
-
-                // Crear una instancia del contador de contenido
-                ContadorContenido contadorContenido = new ContadorContenido();
-                // Agregar el contador de contenido a la ventana principal
-                ventanaPrincipal.agregarPanel(contadorContenido, "Contador de Contenido");
-
-                // Crear una instancia de los otros componentes de interfaz
-                OtrosComponentesInterfaz otrosComponentes = new OtrosComponentesInterfaz();
-                // Agregar los otros componentes de interfaz a la ventana principal
-                ventanaPrincipal.agregarPanel(otrosComponentes, "Otros Componentes de Interfaz");
-
                 // Crear una instancia del comparador y contador de contenido
                 ComparadorContadorContenido comparadorContador = new ComparadorContadorContenido();
                 // Agregar el comparador y contador de contenido a la ventana principal
@@ -52,4 +37,3 @@ public class Main {
         });
     }
 }
-
